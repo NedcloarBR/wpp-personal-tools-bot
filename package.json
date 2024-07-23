@@ -1,0 +1,38 @@
+{
+	"name": "wpp-personal-tools-bot",
+	"description": "A simple Self WhatsApp bot ",
+	"version": "1.0.0",
+	"author": {
+		"name": "Miguel Alexandre Uhlein <NedcloarBR>",
+		"email": "nedcloar1@hotmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/NedcloarBR/wpp-personal-tools-bot.git"
+	},
+	"bugs": {
+		"url": "https://github.com/NedcloarBR/wpp-personal-tools-bot/issues"
+	},
+	"engines": {
+		"node": "20.6.1"
+	},
+	"packageManager": "yarn@4.3.1",
+	"scripts": {
+		"start:dev": "nodemon"
+	},
+	"dependencies": {
+		"glob": "^11.0.0",
+		"qrcode": "^1.5.3",
+		"whatsapp-web.js": "https://github.com/pedroslopez/whatsapp-web.js#webpack-exodus"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.8.3",
+		"@nedcloarbr/biome-config": "^1.4.0",
+		"@types/qrcode": "^1",
+		"nodemon": "^3.1.4",
+		"ts-node": "^10.9.2",
+		"ts-node-dev": "^2.0.0",
+		"tsconfig-paths": "^4.2.0",
+		"typescript": "^5.5.3"
+	}
+}

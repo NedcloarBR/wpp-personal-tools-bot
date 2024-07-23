@@ -1,0 +1,7 @@
+{
+	"watch": ["*"],
+	"restartable": "rs",
+	"ignore": ["(?:^|/)node_modules/", ".git"],
+	"ext": "ts,json",
+	"exec": "ts-node -r tsconfig-paths/register src/main.ts --trace-deprecation"
+}
