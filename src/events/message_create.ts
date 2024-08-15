@@ -17,14 +17,17 @@ export class MessageCreateEvent extends BaseEvent {
 	}
 
 	public async run(client: Client, message: Message): Promise<void> {
-		const prefix = "!";
+		const prefix = "/";
 		if (!message.body.startsWith(prefix)) return;
 
-		const [cmd, ...args] = message.body.slice(prefix.length).trim().split(/ +/g);
+		const [cmd, ...args] = message.body
+      .slice(prefix.length)
+      .trim()
+      .split(/ +/g);
 
 		const command: BaseCommand = client.tools.resolveCommand(cmd);
 		if (command) {
-			command.run(client, message, args);
+			await command.run(client, message, args);
 		}
 	}
 }
