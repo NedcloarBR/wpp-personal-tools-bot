@@ -10,7 +10,8 @@
 # Documentation here: https://yarnpkg.com/features/caching#zero-installs
 
 #!.yarn/cache
+dist/
 .pnp.*
-.wwebjs_auth
-.wwebjs_cache
+.wwebjs_auth/
+.wwebjs_cache/
 node_modules

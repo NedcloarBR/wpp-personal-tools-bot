@@ -1,38 +1,80 @@
 {
-	"name": "wpp-personal-tools-bot",
-	"description": "A simple Self WhatsApp bot ",
-	"version": "1.0.0",
-	"author": {
-		"name": "Miguel Alexandre Uhlein <NedcloarBR>",
-		"email": "nedcloar1@hotmail.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/NedcloarBR/wpp-personal-tools-bot.git"
-	},
-	"bugs": {
-		"url": "https://github.com/NedcloarBR/wpp-personal-tools-bot/issues"
-	},
-	"engines": {
-		"node": "20.6.1"
-	},
-	"packageManager": "yarn@4.3.1",
-	"scripts": {
-		"start:dev": "nodemon"
-	},
-	"dependencies": {
-		"glob": "^11.0.0",
-		"qrcode": "^1.5.3",
-		"whatsapp-web.js": "https://github.com/pedroslopez/whatsapp-web.js#webpack-exodus"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^1.8.3",
-		"@nedcloarbr/biome-config": "^1.4.0",
-		"@types/qrcode": "^1",
-		"nodemon": "^3.1.4",
-		"ts-node": "^10.9.2",
-		"ts-node-dev": "^2.0.0",
-		"tsconfig-paths": "^4.2.0",
-		"typescript": "^5.5.3"
-	}
+  "name": "wpp-personal-tools-bot",
+  "description": "A simple Self WhatsApp bot ",
+  "version": "1.0.0",
+  "author": {
+    "name": "Miguel Alexandre Uhlein <NedcloarBR>",
+    "email": "nedcloar1@hotmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NedcloarBR/wpp-personal-tools-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NedcloarBR/wpp-personal-tools-bot/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "yarn@4.3.1",
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/core": "^11.0.1",
+    "nestwhats": "^1.0.3",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "whatsapp-web.js": "^1.26.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@nedcloarbr/biome-config": "^1.4.0",
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.1",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.10.7",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.7",
+    "@types/supertest": "^6.0.2",
+    "globals": "^15.14.0",
+    "jest": "^29.7.0",
+    "source-map-support": "^0.5.21",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
 }

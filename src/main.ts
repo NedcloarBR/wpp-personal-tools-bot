@@ -1,10 +1,8 @@
-import { Client } from "./core/Client";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
 
-async function login(): Promise<void> {
-  const client = new Client();
-  await client.login();
+async function bootstrap() {
+  const app = await NestFactory.createApplicationContext(AppModule);
+  await app.init()
 }
-
-login().catch((error: Error): void => {
-  console.error(`Start Error: ${error.stack}`);
-});
+bootstrap();
