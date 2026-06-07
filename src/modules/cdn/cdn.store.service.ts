@@ -1,8 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { Injectable, Logger, type OnModuleInit } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import type { CdnConfigType } from "./cdn.config";
+import { Inject, Injectable, Logger, type OnModuleInit } from "@nestjs/common";
+import { type CdnConfigType, cdnConfig } from "./cdn.config";
 import type { CdnConfig } from "./cdn.types";
 
 @Injectable()
@@ -11,8 +10,8 @@ export class CdnStoreService implements OnModuleInit {
 	private readonly configs = new Map<string, CdnConfig>();
 	private readonly configsFile: string;
 
-	public constructor(private readonly configService: ConfigService) {
-		this.configsFile = this.configService.getOrThrow<CdnConfigType>("cdn").configsFile;
+	public constructor(@Inject(cdnConfig.KEY) config: CdnConfigType) {
+		this.configsFile = config.configsFile;
 	}
 
 	public onModuleInit(): void {
@@ -22,7 +21,9 @@ export class CdnStoreService implements OnModuleInit {
 	private load(): void {
 		if (!fs.existsSync(this.configsFile)) return;
 		try {
-			const data: CdnConfig[] = JSON.parse(fs.readFileSync(this.configsFile, "utf-8"));
+			const data: CdnConfig[] = JSON.parse(
+				fs.readFileSync(this.configsFile, "utf-8"),
+			);
 			for (const config of data) this.configs.set(config.id, config);
 			this.logger.log(`Loaded ${this.configs.size} CDN config(s)`);
 		} catch {
@@ -32,7 +33,10 @@ export class CdnStoreService implements OnModuleInit {
 
 	private persist(): void {
 		fs.mkdirSync(path.dirname(this.configsFile), { recursive: true });
-		fs.writeFileSync(this.configsFile, JSON.stringify([...this.configs.values()], null, 2));
+		fs.writeFileSync(
+			this.configsFile,
+			JSON.stringify([...this.configs.values()], null, 2),
+		);
 	}
 
 	public set(config: CdnConfig): void {

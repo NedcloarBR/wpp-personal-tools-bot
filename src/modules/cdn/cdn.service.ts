@@ -1,8 +1,7 @@
 import * as path from "node:path";
-import { Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import type { MessageMedia } from "whatsapp-web.js";
-import type { CdnConfigType } from "./cdn.config";
+import { type CdnConfigType, cdnConfig } from "./cdn.config";
 // biome-ignore lint/style/useImportType: Dependency Injection
 import { CdnQueueService } from "./cdn.queue.service";
 // biome-ignore lint/style/useImportType: Dependency Injection
@@ -15,11 +14,11 @@ export class CdnService {
 	private readonly baseSavePath: string;
 
 	public constructor(
-		private readonly configService: ConfigService,
+		@Inject(cdnConfig.KEY) config: CdnConfigType,
 		private readonly store: CdnStoreService,
 		private readonly queue: CdnQueueService,
 	) {
-		this.baseSavePath = this.configService.getOrThrow<CdnConfigType>("cdn").savePath;
+		this.baseSavePath = config.savePath;
 	}
 
 	public setup(chatId: string, name: string, trigger: string): CdnConfig {
@@ -31,7 +30,9 @@ export class CdnService {
 			savePath: path.join(this.baseSavePath, name),
 		};
 		this.store.set(config);
-		this.logger.log(`[setup] name=${name} chatId=${chatId} trigger=${trigger} savePath=${config.savePath}`);
+		this.logger.log(
+			`[setup] name=${name} chatId=${chatId} trigger=${trigger} savePath=${config.savePath}`,
+		);
 		return config;
 	}
 
@@ -45,20 +46,33 @@ export class CdnService {
 		return this.store.getAll();
 	}
 
-	public enqueueMedia(chatId: string, media: MessageMedia, originalFilename?: string): void {
+	public enqueueMedia(
+		chatId: string,
+		media: MessageMedia,
+		originalFilename?: string,
+	): void {
 		const configs = this.store.getByChatId(chatId);
-		this.logger.log(`[enqueueMedia] chatId=${chatId} configs_found=${configs.length}`);
+		this.logger.log(
+			`[enqueueMedia] chatId=${chatId} configs_found=${configs.length}`,
+		);
 		for (const config of configs) {
 			this.queue.enqueue(config, media, originalFilename);
 		}
 	}
 
-	public async flushByTrigger(chatId: string, trigger: string): Promise<{ name: string; saved: number }[]> {
+	public async flushByTrigger(
+		chatId: string,
+		trigger: string,
+	): Promise<{ name: string; saved: number }[]> {
 		const configs = this.store.getByChatId(chatId);
-		this.logger.log(`[flushByTrigger] chatId=${chatId} trigger="${trigger}" configs_found=${configs.length}`);
+		this.logger.log(
+			`[flushByTrigger] chatId=${chatId} trigger="${trigger}" configs_found=${configs.length}`,
+		);
 		const results: { name: string; saved: number }[] = [];
 		for (const config of configs) {
-			this.logger.log(`[flushByTrigger] checking config trigger="${config.trigger}" match=${config.trigger === trigger}`);
+			this.logger.log(
+				`[flushByTrigger] checking config trigger="${config.trigger}" match=${config.trigger === trigger}`,
+			);
 			if (config.trigger !== trigger) continue;
 			const saved = await this.queue.flush(config);
 			results.push({ name: config.name, saved });

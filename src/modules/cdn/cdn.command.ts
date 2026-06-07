@@ -1,5 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { Args, Chat, CommandGroup, Msg, Subcommand } from "nestwhats";
+import { UseGuards } from "@nestjs/common";
+import {
+	Args,
+	Chat,
+	CommandGroup,
+	FromMeGuard,
+	Msg,
+	Subcommand,
+} from "nestwhats";
 import type { Message, Chat as WaChat } from "whatsapp-web.js";
 // biome-ignore lint/style/useImportType: Dependency Injection
 import { CdnService } from "./cdn.service";
@@ -8,7 +15,7 @@ import { CdnService } from "./cdn.service";
 	name: "cdn",
 	description: "Gerencia watchers de CDN por conversa",
 })
-@Injectable()
+@UseGuards(FromMeGuard)
 export class CdnCommand {
 	public constructor(private readonly cdnService: CdnService) {}
 
@@ -23,7 +30,9 @@ export class CdnCommand {
 		@Msg() message: Message,
 	): Promise<void> {
 		if (!name || !trigger) {
-			await message.reply("❌ Uso: `&cdn setup <nome> <trigger>`\nEx: `&cdn setup ravy .ravy`");
+			await message.reply(
+				"❌ Uso: `&cdn setup <nome> <trigger>`\nEx: `&cdn setup ravy .ravy`",
+			);
 			return;
 		}
 
@@ -51,7 +60,9 @@ export class CdnCommand {
 
 		const removed = this.cdnService.remove(chat.id._serialized, name);
 		await message.reply(
-			removed ? `✅ CDN *${name}* removido.` : `❌ CDN *${name}* não encontrado nessa conversa.`,
+			removed
+				? `✅ CDN *${name}* removido.`
+				: `❌ CDN *${name}* não encontrado nessa conversa.`,
 		);
 	}
 
@@ -67,7 +78,10 @@ export class CdnCommand {
 			return;
 		}
 
-		const lines = configs.map((c) => `• *${c.name}* — trigger: \`${c.trigger}\` — chat: \`${c.chatId}\``);
+		const lines = configs.map(
+			(c) =>
+				`• *${c.name}* — trigger: \`${c.trigger}\` — chat: \`${c.chatId}\``,
+		);
 		await message.reply(`📦 *CDNs ativos:*\n${lines.join("\n")}`);
 	}
 }

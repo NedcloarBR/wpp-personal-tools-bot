@@ -6505,9 +6505,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nestwhats@file:/tmp/nestwhats-core.tgz::locator=wpp-personal-tools-bot%40workspace%3A.":
-  version: 3.1.0
-  resolution: "nestwhats@file:/tmp/nestwhats-core.tgz#/tmp/nestwhats-core.tgz::hash=df3d15&locator=wpp-personal-tools-bot%40workspace%3A."
+"nestwhats@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "nestwhats@npm:3.1.1"
   dependencies:
     path-to-regexp: "npm:8.4.2"
     qrcode: "npm:^1.5.4"
@@ -6524,7 +6524,7 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 10c0/d1c2d301762e759cc6eee75cff1dd2d07897bde1b21e9857179676f547f4d88b9551b3c9aec076a0cbd68e51ea6e5f683eba5c9dfa73772037ad2b470ae6f6e8
+  checksum: 10c0/19d75962d5c33ec73c28a0fcd2e0a663cdd17881889d59c5987d6946f05cae4c840eb77f0e53fad52196331c80965a62e16c18d5015b2a427c6e1b890e3eb5d5
   languageName: node
   linkType: hard
 
@@ -8709,7 +8709,7 @@ __metadata:
     "@types/supertest": "npm:^7.2.0"
     globals: "npm:^17.6.0"
     jest: "npm:^30.4.2"
-    nestwhats: /tmp/nestwhats-core.tgz
+    nestwhats: "npm:^3.1.1"
     reflect-metadata: "npm:^0.2.2"
     rxjs: "npm:^7.8.2"
     source-map-support: "npm:^0.5.21"

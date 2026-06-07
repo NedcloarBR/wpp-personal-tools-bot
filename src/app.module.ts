@@ -3,7 +3,6 @@ import { ConfigModule } from "@nestjs/config";
 import { NestWhatsModule } from "nestwhats";
 import { LocalAuth } from "whatsapp-web.js";
 import * as ModulesMap from "./modules";
-import { cdnConfig } from "./modules/cdn/cdn.config";
 
 const Modules = Object.values(ModulesMap);
 
@@ -11,7 +10,6 @@ const Modules = Object.values(ModulesMap);
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			load: [cdnConfig],
 		}),
 		NestWhatsModule.forRoot({
 			prefix: "&",
